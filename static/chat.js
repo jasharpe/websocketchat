@@ -8,7 +8,20 @@ $(document).ready(function() {
     var message = JSON.parse(e.data);
     if (message["type"] == "message") {
       var text_area = $("#area");
-      text_area.text(text_area.text() + "\n" + message["message"]);
+      if (text_area.text()) {
+        text_area.text(text_area.text() + "\n" + message["message"]);
+      } else {
+         text_area.text(message["message"]);
+      }
+    } else if (message["type"] == "history") {
+      var text_area = $("#area");
+      message["messages"].forEach(function(chat_message) {
+        if (text_area.text()) {
+          text_area.text(text_area.text() + "\n" + chat_message);
+        } else {
+          text_area.text(chat_message);
+        }
+      });
     } else {
       alert("Unknown message type " + message.type);
     }

@@ -5,8 +5,16 @@
     <script type="text/javascript" src="{{ static_url("chat.js") }}"></script>
   </head>
   <body>
-    <textarea id="area" readonly="readonly" style="width: 400px; height:300px; resizable:none;"></textarea>
-    <br />
-    <input type="text" id="box" disabled="disabled" />
+    <h2>Websocket Chat</h2>
+    <div>
+      <textarea id="area" readonly="readonly" style="width: 400px; height:300px; resizable:none;"></textarea>
+      <input style="display:block;" type="text" id="box" disabled="disabled" />
+    </div>
+    <div>
+      <h3>Rooms</h3>
+      <ul id="room_list">
+        <li><a href="google.com">Room 1</a></li>
+      </ul>
+    </div>
   </body>
 </html> 
