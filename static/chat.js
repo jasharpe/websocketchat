@@ -31,6 +31,10 @@ $(document).ready(function() {
   };
 
   var box = $("#box");
+  var part_msg = localStorage.getItem('partial_message');
+  if (part_msg !== undefined) {
+    box.val(part_msg);
+  }
   box.keypress(function(e) {
     if (event.keyCode == '13') {
       ws.send(JSON.stringify({
@@ -39,5 +43,8 @@ $(document).ready(function() {
       }));
       box.val("");
     }
+  });
+  box.keyup(function(e) {
+    localStorage.setItem('partial_message', box.val());
   });
 });
