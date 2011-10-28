@@ -2,7 +2,10 @@ $(document).ready(function() {
   var ws = new WebSocket("ws://" + window.location.host + "/websocket");  
   ws.onopen = function() {  
     var text_box = $("#box");
-    text_box.attr("disabled", "");
+    ws.send(JSON.stringify({
+        "type" : "room_request",
+        "room" : room_name
+    }));
   };  
   ws.onmessage = function (e) {
     var message = JSON.parse(e.data);
@@ -15,6 +18,7 @@ $(document).ready(function() {
       }
     } else if (message["type"] == "history") {
       var text_area = $("#area");
+      text_area.text("");
       message["messages"].forEach(function(chat_message) {
         if (text_area.text()) {
           text_area.text(text_area.text() + "\n" + chat_message);
@@ -22,6 +26,9 @@ $(document).ready(function() {
           text_area.text(chat_message);
         }
       });
+      $("#box").attr("disabled", "");
+    } else if (message["type"] == "update") {
+      $("#" + message["id"]).html(message["html"]);
     } else {
       alert("Unknown message type " + message.type);
     }
@@ -38,7 +45,7 @@ $(document).ready(function() {
   box.keypress(function(e) {
     if (event.keyCode == '13') {
       ws.send(JSON.stringify({
-          "type" : "request_card",
+          "type" : "new_message",
           "message" : box.val()
       }));
       box.val("");
